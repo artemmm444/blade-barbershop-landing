@@ -1,7 +1,3 @@
-// netlify/functions/lead.js — Netlify Function. Принимает заявку и шлёт её в Telegram.
-// Токен бота живёт ТОЛЬКО здесь (env), в браузер не попадает.
-// config.path мапит функцию на /api/lead — фронт бьёт именно туда, без доп. настроек.
-
 export default async (req) => {
   if (req.method !== "POST") {
     return json({ ok: false, error: "Method not allowed" }, 405);
@@ -20,7 +16,6 @@ export default async (req) => {
     body = {};
   }
 
-  // --- Валидация (trust boundary — не упрощаем) ---
   const name = clean(body?.name, 80);
   const contact = clean(body?.contact, 80);
   const message = clean(body?.message, 500);
@@ -56,8 +51,6 @@ export default async (req) => {
 };
 
 export const config = { path: "/api/lead" };
-
-// ponytail: без rate-limit; если полетит спам — добавить проверку по IP или капчу.
 
 function clean(v, max) {
   return String(v ?? "").trim().slice(0, max);

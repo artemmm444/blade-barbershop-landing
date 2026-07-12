@@ -1,6 +1,6 @@
 :root {
-  --accent: #c8a15a; /* перезаписывается из config.js */
-  --red: #a5322b;    /* барберпольный красный — вторая краска */
+  --accent: #c8a15a;
+  --red: #a5322b;
   --ink: #131010;
   --ink-2: #1a1512;
   --paper: #efe7d4;
@@ -15,7 +15,6 @@
   --sans: "Inter", system-ui, sans-serif;
 }
 
-/* Никаких скруглений. Нигде. */
 * { box-sizing: border-box; margin: 0; padding: 0; border-radius: 0 !important; }
 html { scroll-behavior: smooth; }
 
@@ -31,14 +30,12 @@ body {
 a { color: inherit; text-decoration: none; }
 ::selection { background: var(--red); color: #fff; }
 
-/* ---------- ЗЕРНО ---------- */
 .grain {
   position: fixed; inset: 0; z-index: 999; pointer-events: none;
   opacity: .06; mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* ---------- КУРСОР ---------- */
 .cursor {
   position: fixed; top: 0; left: 0; z-index: 1000; pointer-events: none;
   width: 12px; height: 12px;
@@ -51,7 +48,6 @@ a { color: inherit; text-decoration: none; }
 .cursor.is-hover { width: 42px; height: 42px; }
 @media (pointer: coarse), (prefers-reduced-motion: reduce) { .cursor { display: none; } }
 
-/* ---------- REVEAL ---------- */
 [data-reveal] {
   opacity: 0; transform: translateY(26px);
   transition: opacity .65s cubic-bezier(.16,.8,.3,1), transform .65s cubic-bezier(.16,.8,.3,1);
@@ -59,7 +55,6 @@ a { color: inherit; text-decoration: none; }
 [data-reveal].is-in { opacity: 1; transform: translateY(0); }
 @media (prefers-reduced-motion: reduce) { [data-reveal] { opacity: 1; transform: none; transition: none; } }
 
-/* ---------- NAV ---------- */
 .nav {
   position: sticky; top: 0; z-index: 50;
   display: flex; align-items: center; justify-content: space-between;
@@ -78,7 +73,6 @@ a { color: inherit; text-decoration: none; }
 .nav__cta:hover { background: var(--accent); color: var(--ink); box-shadow: 4px 4px 0 var(--red); transform: translate(-2px,-2px); }
 @media (max-width: 620px) { .nav__links a:not(.nav__cta) { display: none; } }
 
-/* ---------- КНОПКИ: жёсткая тень, без скруглений ---------- */
 .btn {
   display: inline-block; cursor: pointer;
   font-weight: 700; font-size: 1rem; font-family: var(--sans);
@@ -92,7 +86,6 @@ a { color: inherit; text-decoration: none; }
 .btn:hover { transform: translate(-2px, -2px); box-shadow: 9px 9px 0 var(--red); }
 .btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0 var(--red); }
 
-/* ---------- HERO ---------- */
 .hero {
   position: relative; min-height: 92vh; overflow: hidden;
   display: flex; flex-direction: column; justify-content: center;
@@ -104,7 +97,6 @@ a { color: inherit; text-decoration: none; }
   filter: grayscale(1) contrast(1.25) brightness(.85);
   will-change: transform;
 }
-/* Дуотон: фото в цветовой системе ink/red, а не «сток под текстом» */
 .hero__bg::after {
   content: ""; position: absolute; inset: 0;
   background: var(--red); mix-blend-mode: color; opacity: .35;
@@ -158,7 +150,6 @@ a { color: inherit; text-decoration: none; }
   padding: .8rem 0;
 }
 
-/* ---------- MARQUEE ---------- */
 .marquee { overflow: hidden; white-space: nowrap; }
 .marquee__track {
   display: inline-flex; gap: 2.5rem;
@@ -170,7 +161,6 @@ a { color: inherit; text-decoration: none; }
 @keyframes scroll-left { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .marquee__track { animation: none; } }
 
-/* ---------- STATS ---------- */
 .stats { background: var(--paper); color: var(--text-light); border-bottom: 2px solid var(--ink); }
 .stats__inner {
   max-width: var(--max); margin: 0 auto;
@@ -197,7 +187,6 @@ a { color: inherit; text-decoration: none; }
   .stats__inner > div:first-child { border-top: none; }
 }
 
-/* ---------- SECTION БАЗА + ghost-номер ---------- */
 .section {
   position: relative; overflow: hidden;
   padding: clamp(4rem, 9vw, 7rem) clamp(1rem, 4vw, 2.5rem);
@@ -219,7 +208,6 @@ a { color: inherit; text-decoration: none; }
 }
 .ghost-glyph--no { font-size: clamp(12rem, 30vw, 26rem); left: -4%; bottom: -12%; transform: rotate(8deg); }
 .ghost-glyph--star { font-size: clamp(10rem, 22vw, 18rem); right: 2%; top: -6%; transform: rotate(-10deg); }
-/* В секции записи ghost-номер конфликтует со звездой за формой — убираем номер */
 .section--book::before { content: none; }
 
 .kicker {
@@ -238,7 +226,6 @@ a { color: inherit; text-decoration: none; }
 .section__title em { font-style: italic; font-weight: 500; color: var(--accent); }
 .section--paper .section__title em { color: var(--red); }
 
-/* ---------- ГРОССБУХ УСЛУГ ---------- */
 .section--services { background: var(--ink); }
 .ledger { border-top: 2px solid var(--text-dark); }
 .ledger__row {
@@ -268,7 +255,6 @@ a { color: inherit; text-decoration: none; }
   .ledger__time { display: none; }
 }
 
-/* ---------- STEPS ---------- */
 .section--paper { background: var(--paper); color: var(--text-light); border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); }
 .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border: 2px solid var(--ink); background: var(--paper); }
 .step {
@@ -290,7 +276,6 @@ a { color: inherit; text-decoration: none; }
   .step:first-child { border-top: none; }
 }
 
-/* ---------- REVIEWS ---------- */
 .section--bleed { background: var(--ink-2); padding-left: 0; padding-right: 0; }
 .section--bleed > *:not(.marquee) { padding-inline: clamp(1rem, 4vw, 2.5rem); }
 .section--bleed .marquee { max-width: none; }
@@ -309,7 +294,6 @@ a { color: inherit; text-decoration: none; }
 .review__text { font-style: italic; font-family: var(--serif); font-size: 1.05rem; line-height: 1.5; }
 .review__name { margin-top: 1rem; font-weight: 700; font-size: .8rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted-light); }
 
-/* ---------- BOOK / FORM ---------- */
 .section--book { background: var(--ink); border-top: 2px solid var(--text-dark); }
 .book { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
 @media (max-width: 780px) { .book { grid-template-columns: 1fr; } }
@@ -341,7 +325,6 @@ a { color: inherit; text-decoration: none; }
 .form__status.is-ok { color: #2c7a44; }
 .form__status.is-err { color: var(--red); }
 
-/* ---------- FOOTER ---------- */
 .footer { border-top: 2px solid var(--text-dark); overflow: hidden; }
 .footer__giant {
   font-family: var(--serif); font-weight: 900; line-height: .85;

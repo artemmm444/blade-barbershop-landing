@@ -4,10 +4,8 @@ const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-// --- Тема: акцентный цвет из конфига ---
 document.documentElement.style.setProperty("--accent", CONFIG.accent);
 
-// --- Текстовые заполнители ---
 $$("[data-brand]").forEach((el) => (el.textContent = CONFIG.brand));
 $("[data-tagline]").textContent = CONFIG.tagline;
 $("[data-hero-title]").textContent = CONFIG.hero.title;
@@ -15,19 +13,16 @@ $("[data-hero-sub]").textContent = CONFIG.hero.subtitle;
 $("[data-hero-cta]").textContent = CONFIG.hero.cta;
 document.title = `${CONFIG.brand} — ${CONFIG.tagline}`;
 
-// --- Бегущая строка под hero (дублируем список для бесшовной петли) ---
 const marqueeItems = [...CONFIG.marquee, ...CONFIG.marquee]
   .map((w) => `<span>${esc(w)}</span><span class="dot">✦</span>`)
   .join("");
 $("[data-marquee]").innerHTML = marqueeItems;
 
-// --- Штамп в hero: город + соц-доказательство из stats (единый источник — config) ---
 const rating = CONFIG.stats.find((s) => s.label.includes("рейтинг"));
 const clients = CONFIG.stats.find((s) => s.label.includes("клиент"));
 $("[data-stamp]").innerHTML =
   `<span>Москва</span><span>·</span><span>${esc(rating?.n ?? "")}★ · ${esc(clients?.n ?? "")} клиентов</span>`;
 
-// --- Статы ---
 $("[data-stats]").innerHTML = CONFIG.stats
   .map(
     (s) => `
@@ -38,7 +33,6 @@ $("[data-stats]").innerHTML = CONFIG.stats
   )
   .join("");
 
-// --- Услуги: гроссбух-строки, не карточки ---
 $("[data-services]").innerHTML = CONFIG.services
   .map(
     (s, i) => `
@@ -54,7 +48,6 @@ $("[data-services]").innerHTML = CONFIG.services
   )
   .join("");
 
-// --- Шаги ---
 $("[data-steps]").innerHTML = CONFIG.steps
   .map(
     (s) => `
@@ -66,7 +59,6 @@ $("[data-steps]").innerHTML = CONFIG.steps
   )
   .join("");
 
-// --- Отзывы (бегущая лента, дублируем для бесшовной петли) ---
 const reviewCard = (r) => `
     <article class="review-card">
       <div class="review__stars">${"★".repeat(r.stars)}</div>
@@ -75,7 +67,6 @@ const reviewCard = (r) => `
     </article>`;
 $("[data-reviews]").innerHTML = [...CONFIG.reviews, ...CONFIG.reviews].map(reviewCard).join("");
 
-// --- Контакты ---
 const c = CONFIG.contacts;
 const tgLink = c.telegram.replace(/^@/, "");
 const mapLink = `https://maps.google.com/?q=${encodeURIComponent(c.mapQuery)}`;
@@ -85,7 +76,6 @@ $("[data-contacts]").innerHTML = `
   <li>📍 <a href="${mapLink}" target="_blank" rel="noopener">${esc(c.address)}</a></li>
   <li>🕒 ${esc(c.hours)}</li>`;
 
-// --- Форма → /api/lead ---
 const form = $("[data-form]");
 const statusEl = $("[data-status]");
 const submitBtn = $(".form__submit", form);
@@ -135,16 +125,12 @@ function setStatus(text, cls) {
   statusEl.className = `form__status ${cls}`;
 }
 
-// Экранирование, чтобы значения из config.js не ломали разметку.
 function esc(str = "") {
   return String(str).replace(/[&<>"']/g, (ch) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch])
   );
 }
 
-// ================= АНИМАЦИИ =================
-
-// --- Появление секций при скролле ---
 if (!reduceMotion) {
   const io = new IntersectionObserver(
     (entries) => {
@@ -162,7 +148,6 @@ if (!reduceMotion) {
   $$("[data-reveal]").forEach((el) => el.classList.add("is-in"));
 }
 
-// --- Кастомный курсор ---
 const cursor = $("[data-cursor]");
 if (cursor && !reduceMotion && matchMedia("(pointer: fine)").matches) {
   window.addEventListener("mousemove", (e) => {
@@ -175,7 +160,6 @@ if (cursor && !reduceMotion && matchMedia("(pointer: fine)").matches) {
   });
 }
 
-// --- Параллакс фона hero на скролле ---
 const heroBg = $("[data-parallax]");
 if (heroBg && !reduceMotion) {
   window.addEventListener(
@@ -187,4 +171,3 @@ if (heroBg && !reduceMotion) {
     { passive: true }
   );
 }
-
