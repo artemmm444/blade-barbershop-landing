@@ -36,11 +36,37 @@ $("[data-stats]").innerHTML = CONFIG.stats
   .map(
     (s) => `
     <div data-reveal>
-      <div class="stat__n">${esc(s.n)}</div>
+      <div class="stat__n" data-count="${esc(s.n)}">${esc(s.n)}</div>
       <div class="stat__label">${esc(s.label)}</div>
     </div>`
   )
   .join("");
+
+/* цифры статистики считают вверх при появлении */
+if (!reduceMotion) {
+  const statIO = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      if (!en.isIntersecting) return;
+      statIO.unobserve(en.target);
+      const raw = en.target.dataset.count;
+      const m = raw.match(/^([\d.,]+)(.*)$/);
+      if (!m) return;
+      const target = parseFloat(m[1].replace(",", "."));
+      const suffix = m[2];
+      const decimals = m[1].includes(".") || m[1].includes(",") ? 1 : 0;
+      const start = performance.now();
+      const step = (now) => {
+        const k = Math.min((now - start) / 1300, 1);
+        const val = (target * (1 - Math.pow(1 - k, 3))).toFixed(decimals);
+        en.target.textContent = `${val}${suffix}`;
+        if (k < 1) requestAnimationFrame(step);
+        else en.target.textContent = raw;
+      };
+      requestAnimationFrame(step);
+    });
+  }, { threshold: 0.6 });
+  $$(".stat__n").forEach((el) => statIO.observe(el));
+}
 
 $("[data-services]").innerHTML = CONFIG.services
   .map(
