@@ -394,3 +394,23 @@ a { color: inherit; text-decoration: none; }
   color: var(--muted-dark); font-size: 14px; padding: 6px;
 }
 .picker__clear:hover { color: var(--text-dark); }
+
+/* ===== пословное появление заголовка ===== */
+.tline { display: block; }
+.tw { display: inline-block; overflow: hidden; vertical-align: top; }
+.tw > span { display: inline-block; transform: translateY(112%); animation: twUp .9s cubic-bezier(.22,1,.36,1) forwards; animation-delay: var(--d, 0ms); }
+@keyframes twUp { to { transform: none; } }
+
+/* ===== блик на кнопках ===== */
+.btn { position: relative; overflow: hidden; }
+.btn::after {
+  content: ""; position: absolute; top: 0; left: -130%; width: 55%; height: 100%;
+  background: linear-gradient(105deg, transparent, rgba(255,255,255,.22), transparent);
+  transform: skewX(-20deg); transition: left .65s ease; pointer-events: none;
+}
+.btn:hover::after { left: 140%; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tw > span { animation: none; transform: none; }
+  .btn::after { display: none; }
+}

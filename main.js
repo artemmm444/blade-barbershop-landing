@@ -8,7 +8,16 @@ document.documentElement.style.setProperty("--accent", CONFIG.accent);
 
 $$("[data-brand]").forEach((el) => (el.textContent = CONFIG.brand));
 $("[data-tagline]").textContent = CONFIG.tagline;
-$("[data-hero-title]").textContent = CONFIG.hero.title;
+$("[data-hero-title]").innerHTML = CONFIG.hero.title
+  .split("\n")
+  .map(
+    (line, li) =>
+      `<span class="tline">${line
+        .split(" ")
+        .map((w, wi) => `<span class="tw" style="--d:${(li * 3 + wi) * 90}ms"><span>${esc(w)}</span></span>`)
+        .join(" ")}</span>`
+  )
+  .join(" ");
 $("[data-hero-sub]").textContent = CONFIG.hero.subtitle;
 $("[data-hero-cta]").textContent = CONFIG.hero.cta;
 document.title = `${CONFIG.brand} — ${CONFIG.tagline}`;
