@@ -48,6 +48,55 @@ $("[data-services]").innerHTML = CONFIG.services
   )
   .join("");
 
+/* сборка визита: клик по строке прайса */
+const picked = new Set();
+const pickerEl = $("[data-picker]");
+const plural = (n, one, few, many) => {
+  const m10 = n % 10, m100 = n % 100;
+  if (m10 === 1 && m100 !== 11) return one;
+  if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
+  return many;
+};
+
+function renderPicker() {
+  const items = [...picked].map((i) => CONFIG.services[i]);
+  pickerEl.hidden = items.length === 0;
+  if (!items.length) return;
+  const sum = items.reduce((s, x) => s + parseInt(x.price, 10), 0);
+  const time = items.reduce((s, x) => s + parseInt(x.time, 10), 0);
+  $("[data-picker-count]").textContent =
+    `${items.length} ${plural(items.length, "услуга", "услуги", "услуг")}`;
+  $("[data-picker-meta]").textContent =
+    `${sum.toLocaleString("ru-RU")} ₽ · ~${time} мин`;
+}
+
+$$(".ledger__row").forEach((row, i) => {
+  row.classList.add("is-pickable");
+  row.setAttribute("role", "button");
+  row.setAttribute("tabindex", "0");
+  const toggle = () => {
+    picked.has(i) ? picked.delete(i) : picked.add(i);
+    row.classList.toggle("is-picked", picked.has(i));
+    renderPicker();
+  };
+  row.addEventListener("click", toggle);
+  row.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+  });
+});
+
+$("[data-picker-go]").addEventListener("click", () => {
+  const names = [...picked].map((i) => CONFIG.services[i].name);
+  const msgField = $("[data-form]").message;
+  if (names.length) msgField.value = `Хочу: ${names.join(", ").toLowerCase()}`;
+});
+
+$("[data-picker-clear]").addEventListener("click", () => {
+  picked.clear();
+  $$(".ledger__row").forEach((r) => r.classList.remove("is-picked"));
+  renderPicker();
+});
+
 $("[data-steps]").innerHTML = CONFIG.steps
   .map(
     (s) => `

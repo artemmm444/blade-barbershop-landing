@@ -50,8 +50,19 @@
 <section class="section section--services" id="services" data-num="01">
   <p class="kicker" data-reveal>Прайс — без сюрпризов</p>
   <h2 class="section__title" data-reveal>Услуги <em>и цены</em></h2>
+  <p class="ledger-hint" data-reveal>Отмечай строки — соберём твой визит и посчитаем время</p>
   <div class="ledger" data-services></div>
 </section>
+
+<!-- Плавающая панель выбранных услуг -->
+<div class="picker" data-picker hidden>
+  <div class="picker__info">
+    <b data-picker-count></b>
+    <span data-picker-meta></span>
+  </div>
+  <a href="#book" class="btn picker__btn" data-picker-go>Записаться</a>
+  <button type="button" class="picker__clear" data-picker-clear aria-label="Сбросить выбор">✕</button>
+</div>
 
 <!-- КАК ЭТО РАБОТАЕТ -->
 <section class="section section--paper" id="how" data-num="02">

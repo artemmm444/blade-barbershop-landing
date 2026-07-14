@@ -354,3 +354,43 @@ a { color: inherit; text-decoration: none; }
   font-family: var(--serif); font-style: italic;
 }
 .footer__muted { color: var(--muted-dark); font-size: .88rem; font-family: var(--sans); font-style: normal; }
+
+/* ===== сборка визита по прайсу ===== */
+.ledger-hint {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--muted-dark);
+  margin: -6px 0 18px;
+}
+.ledger__row.is-pickable { cursor: pointer; user-select: none; transition: background .25s ease, box-shadow .25s ease; }
+.ledger__row.is-pickable:hover { background: rgba(200, 161, 90, .05); }
+.ledger__row.is-picked {
+  background: rgba(200, 161, 90, .1);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+.ledger__row.is-picked .ledger__price { color: var(--accent); }
+
+.picker {
+  position: fixed;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--ink-2);
+  border: 1px solid var(--line-d);
+  padding: 12px 14px 12px 22px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .45);
+  max-width: calc(100vw - 24px);
+}
+.picker__info { display: flex; flex-direction: column; white-space: nowrap; }
+.picker__info b { font-family: var(--serif); font-size: 16px; color: var(--text-dark); }
+.picker__info span { font-family: var(--sans); font-size: 12.5px; color: var(--muted-dark); }
+.picker__btn { padding: 10px 20px; font-size: 13px; }
+.picker__clear {
+  background: none; border: none; cursor: pointer;
+  color: var(--muted-dark); font-size: 14px; padding: 6px;
+}
+.picker__clear:hover { color: var(--text-dark); }
